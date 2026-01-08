@@ -4,12 +4,14 @@
 Rectangle::Rectangle(float height, float width, sf::Color color) {
 	rectangle.setSize({width, height});
 	rectangle.setFillColor(color);
+	size = rectangle.getSize();
 
 	static std::mt19937 gen(std::random_device{}());
-	std::uniform_real_distribution<float> dist(1.f, 500.f);
+	std::uniform_real_distribution<float> distX(1.f, 800.f - size.x);
+	std::uniform_real_distribution<float> distY(1.f, 600.f - size.y);
 
-	rectangle.setPosition({ dist(gen), dist(gen) });
-
+	rectangle.setPosition({ distX(gen), distY(gen) });
+	
 	clock.start();
 	
 }
@@ -21,8 +23,11 @@ void Rectangle::pickNewTarget() {
 	static std::mt19937 gen(std::random_device{}());
 	std::uniform_real_distribution<float> dist(-200.f, 200.f);
 
-	sf::Vector2f offset(dist(gen), dist(gen));
-	target = rectangle.getPosition() + offset;
+	do {
+		sf::Vector2f offset(dist(gen), dist(gen));
+		target = rectangle.getPosition() + offset;
+	} while (target.x < 0 || target.x + size.x > 800 || target.y < 0 || target.y + size.y > 600);
+	
 
 	isMoving = true;
 
