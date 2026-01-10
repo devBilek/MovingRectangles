@@ -4,6 +4,7 @@
 #include <memory>
 #include "Player.hpp"
 #include "BulletMenager.hpp"
+#include "EventBus.hpp"
 
 class Game {
 public:
@@ -16,6 +17,7 @@ private:
 	sf::RenderWindow window;
 	sf::Clock clock;
 
+	std::unique_ptr<EventBus> eventBus;
 	std::unique_ptr<BulletMenager> bulletMenager;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Rectangle> r1;

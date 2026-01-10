@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player() : deltaTime(1) {
+Player::Player(EventBus& bus) : bus(bus), deltaTime(1) {
 	playerShape.setPointCount(3);
 	playerShape.setRadius(40.f);
 	playerShape.setFillColor(sf::Color::White);
@@ -34,14 +34,10 @@ void Player::control() {
 		angle += sf::degrees(4.f);
 		playerShape.setRotation(angle);
 	}
-}
-
-std::optional<BulletSpawnEvent> Player::pollShotEvent() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && coolDownClock.getElapsedTime().asMilliseconds() >= 100) {
 		coolDownClock.restart();
-		return BulletSpawnEvent{playerShape.getPosition(), direction};
+		bus.publish(BulletSpawnEvent{ playerShape.getPosition(), direction });
 	}
-	return std::nullopt;
 }
 
 void Player::computeDirection() {

@@ -3,6 +3,7 @@
 #include "Bullet.hpp"
 #include <vector>
 #include <BulletSpawnEvent.hpp>
+#include "EventBus.hpp"
 
 class Player {
 private:
@@ -15,9 +16,10 @@ private:
 	float speed = 180;
 	sf::Vector2f direction;
 	void computeDirection();
+
+	EventBus& bus;
 public:
-	Player();
+	Player(EventBus& bus);
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& window);
-	std::optional<BulletSpawnEvent> pollShotEvent();
 };

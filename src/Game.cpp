@@ -5,8 +5,9 @@
 
 Game::Game() 
     : window(sf::RenderWindow(sf::VideoMode({ 800u, 600u }), "CMake SFML Project")),
-    bulletMenager(std::make_unique<BulletMenager>()),
-    player(std::make_unique<Player>()),
+    eventBus(std::make_unique<EventBus>()),
+    bulletMenager(std::make_unique<BulletMenager>(*eventBus)),
+    player(std::make_unique<Player>(*eventBus)),
     r1(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Red))),
     r2(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Yellow))),
     r3(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Green)))
@@ -25,9 +26,6 @@ void Game::run() {
 
         }
 
-        if (auto evt = player->pollShotEvent()) {
-            bulletMenager->spawnBullet(evt->startPosition, evt->direction);
-        }
 
         bulletMenager->update(deltaTime);
 

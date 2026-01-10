@@ -1,7 +1,11 @@
 #include "BulletMenager.hpp"
 
-void BulletMenager::spawnBullet(sf::Vector2f startPosition, sf::Vector2f direction) {
-	bullets.push_back(Bullet(startPosition, direction));
+BulletMenager::BulletMenager(EventBus& bus) : bus(bus) {
+	bus.subscribe<BulletSpawnEvent>(
+		[this](const BulletSpawnEvent& e) {
+			bullets.push_back(Bullet(e.startPosition, e.direction));
+		}
+	);
 }
 
 void BulletMenager::draw(sf::RenderWindow& window) const {
