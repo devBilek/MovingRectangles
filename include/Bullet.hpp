@@ -10,9 +10,8 @@ private:
 	sf::Vector2f direction;
 	float speed = 400.f;
 public:
-	Bullet(sf::Vector2f startPosition, sf::Angle angle);
+	Bullet(sf::Vector2f startPosition, sf::Vector2f direction);
 	void update(float deltaTime);
 	const sf::CircleShape& getShape() const;
-	sf::Vector2f computeDirection() const;
 	bool isOutOfBounds() const;
 };

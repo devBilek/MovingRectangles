@@ -7,27 +7,14 @@ Player::Player() : deltaTime(1) {
 	playerShape.setPosition({ 400.f, 300.f });
 	playerShape.setOrigin({ 40.f, 40.f });
 	coolDownClock.start();
+
+	float rad = angle.asRadians();
+	direction = sf::Vector2(std::sin(rad), -std::cos(rad));
 }
 
 void Player::update(float deltaTime) {
 	this->deltaTime = deltaTime;
 	control();
-
-	for (auto& b : bullets) {
-		b.update(deltaTime);
-	}
-
-	bullets.erase(
-		std::remove_if(
-			bullets.begin(),
-			bullets.end(),
-			[deltaTime](Bullet& b) {
-				b.update(deltaTime);
-				return b.isOutOfBounds();
-			}
-		),
-		bullets.end()
-	);
 }
 
 void Player::draw(sf::RenderWindow& window) {
@@ -35,11 +22,9 @@ void Player::draw(sf::RenderWindow& window) {
 }
 
 void Player::control() {
+	computeDirection();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
-		float rad = angle.asRadians();
-		sf::Vector2f dir( std::sin(rad), -std::cos(rad));
-		playerShape.move(dir * speed * deltaTime);
-		
+		playerShape.move(direction * speed * deltaTime);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
 		angle -= sf::degrees(4.f);
@@ -49,16 +34,17 @@ void Player::control() {
 		angle += sf::degrees(4.f);
 		playerShape.setRotation(angle);
 	}
+}
+
+std::optional<BulletSpawnEvent> Player::pollShotEvent() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && coolDownClock.getElapsedTime().asMilliseconds() >= 100) {
-		shot();
+		coolDownClock.restart();
+		return BulletSpawnEvent{playerShape.getPosition(), direction};
 	}
+	return std::nullopt;
 }
 
-void Player::shot() {
-	bullets.push_back(Bullet(playerShape.getPosition(), angle));
-	coolDownClock.restart();
-}
-
-const std::vector<Bullet>& Player::getBullets() const {
-	return bullets;
+void Player::computeDirection() {
+	float rad = angle.asRadians();
+	direction = sf::Vector2(std::sin(rad), -std::cos(rad));
 }

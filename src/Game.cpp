@@ -5,6 +5,7 @@
 
 Game::Game() 
     : window(sf::RenderWindow(sf::VideoMode({ 800u, 600u }), "CMake SFML Project")),
+    bulletMenager(std::make_unique<BulletMenager>()),
     player(std::make_unique<Player>()),
     r1(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Red))),
     r2(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Yellow))),
@@ -14,17 +15,21 @@ Game::Game()
 }
 
 void Game::run() {
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         float deltaTime = clock.restart().asSeconds();
 
-        while (const std::optional event = window.pollEvent())
-        {
-            if (event->is<sf::Event::Closed>())
-            {
+        while (const std::optional event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+
         }
+
+        if (auto evt = player->pollShotEvent()) {
+            bulletMenager->spawnBullet(evt->startPosition, evt->direction);
+        }
+
+        bulletMenager->update(deltaTime);
 
         player->update(deltaTime);
 
@@ -38,13 +43,12 @@ void Game::run() {
         r3->updatePosition(deltaTime);
 
         window.clear();
+        bulletMenager->draw(window);
         player->draw(window);
         r1->draw(window);
         r2->draw(window);
         r3->draw(window);
-        for (const auto& b : player->getBullets()) {
-            window.draw(b.getShape());
-        }
+        
 
         window.display();
     }

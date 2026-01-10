@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "Bullet.hpp"
 #include <vector>
+#include <BulletSpawnEvent.hpp>
 
 class Player {
 private:
@@ -12,10 +13,11 @@ private:
 	std::vector<Bullet> bullets;
 	sf::Clock coolDownClock;
 	float speed = 180;
+	sf::Vector2f direction;
+	void computeDirection();
 public:
 	Player();
 	void update(float deltaTime);
 	void draw(sf::RenderWindow& window);
-	void shot();
-	const std::vector<Bullet>& getBullets() const;
+	std::optional<BulletSpawnEvent> pollShotEvent();
 };
