@@ -42,6 +42,10 @@ void Game::run() {
         r1->draw(window);
         r2->draw(window);
         r3->draw(window);
+        for (const auto& b : player->getBullets()) {
+            window.draw(b.getShape());
+        }
+
         window.display();
     }
 };
