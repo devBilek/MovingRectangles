@@ -3,7 +3,7 @@
 #include "Rectangle.hpp"
 #include <memory>
 #include "Player.hpp"
-#include "BulletMenager.hpp"
+#include "BulletManager.hpp"
 #include "EventBus.hpp"
 
 class Game {

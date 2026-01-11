@@ -1,4 +1,4 @@
-#include "BulletMenager.hpp"
+#include "BulletManager.hpp"
 
 BulletMenager::BulletMenager(EventBus& bus) : bus(bus) {
 	bus.subscribe<BulletSpawnEvent>(
