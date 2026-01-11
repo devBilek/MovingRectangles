@@ -13,7 +13,7 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 include_directories(include)
-add_executable(main src/main.cpp "src/Rectangle.cpp" "src/RectangleFactory.cpp" "src/Game.cpp" "src/Player.cpp" "src/Bullet.cpp" "src/BulletManager.cpp" )
+add_executable(main src/main.cpp "src/Rectangle.cpp" "src/RectangleFactory.cpp" "src/Game.cpp" "src/Player.cpp" "src/Bullet.cpp" "src/BulletManager.cpp"  "src/PlayerInputSystem.cpp" "src/PlayerMovementSystem.cpp")
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
 

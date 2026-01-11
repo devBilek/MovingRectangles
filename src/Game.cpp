@@ -5,9 +5,9 @@
 
 Game::Game() 
     : window(sf::RenderWindow(sf::VideoMode({ 800u, 600u }), "CMake SFML Project")),
-    eventBus(std::make_unique<EventBus>()),
-    bulletMenager(std::make_unique<BulletMenager>(*eventBus)),
-    player(std::make_unique<Player>(*eventBus)),
+    playerMovementSystem(eventBus),
+    bulletMenager(BulletMenager(eventBus)),
+    player(Player(eventBus)),
     r1(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Red))),
     r2(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Yellow))),
     r3(std::make_unique<Rectangle>(RectangleFactory::create(RectangleType::Green)))
@@ -26,10 +26,12 @@ void Game::run() {
 
         }
 
+        playerInputSystem.update(playerInput);
+        playerMovementSystem.update(player, playerInput, deltaTime);
 
-        bulletMenager->update(deltaTime);
+        bulletMenager.update(deltaTime);
 
-        player->update(deltaTime);
+        player.update();
 
         r1->rectangleRandomMove();
         r1->updatePosition(deltaTime);
@@ -41,8 +43,8 @@ void Game::run() {
         r3->updatePosition(deltaTime);
 
         window.clear();
-        bulletMenager->draw(window);
-        player->draw(window);
+        bulletMenager.draw(window);
+        player.draw(window);
         r1->draw(window);
         r2->draw(window);
         r3->draw(window);

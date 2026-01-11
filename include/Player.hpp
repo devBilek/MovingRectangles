@@ -10,16 +10,25 @@ private:
 	sf::CircleShape playerShape;
 	void control();
 	sf::Angle angle;
-	float deltaTime;
 	std::vector<Bullet> bullets;
 	sf::Clock coolDownClock;
 	float speed = 180;
 	sf::Vector2f direction;
-	void computeDirection();
+	void updateDirection();
 
 	EventBus& bus;
 public:
 	Player(EventBus& bus);
-	void update(float deltaTime);
+	void update();
 	void draw(sf::RenderWindow& window);
+	void resetCoolDown();
+	bool canShoot();
+
+	sf::Vector2f getDirection() const;
+	sf::Vector2f getPosition() const;
+
+	void moveForward(float deltaTime);
+	void rotateLeft();
+	void rotateRight();
+
 };

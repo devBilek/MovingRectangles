@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(EventBus& bus) : bus(bus), deltaTime(1) {
+Player::Player(EventBus& bus) : bus(bus) {
 	playerShape.setPointCount(3);
 	playerShape.setRadius(40.f);
 	playerShape.setFillColor(sf::Color::White);
@@ -12,35 +12,45 @@ Player::Player(EventBus& bus) : bus(bus), deltaTime(1) {
 	direction = sf::Vector2(std::sin(rad), -std::cos(rad));
 }
 
-void Player::update(float deltaTime) {
-	this->deltaTime = deltaTime;
-	control();
+void Player::update() {
 }
 
 void Player::draw(sf::RenderWindow& window) {
 	window.draw(playerShape);
 }
 
-void Player::control() {
-	computeDirection();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
-		playerShape.move(direction * speed * deltaTime);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
-		angle -= sf::degrees(4.f);
-		playerShape.setRotation(angle);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
-		angle += sf::degrees(4.f);
-		playerShape.setRotation(angle);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && coolDownClock.getElapsedTime().asMilliseconds() >= 100) {
-		coolDownClock.restart();
-		bus.publish(BulletSpawnEvent{ playerShape.getPosition(), direction });
-	}
-}
-
-void Player::computeDirection() {
+void Player::updateDirection() {
 	float rad = angle.asRadians();
 	direction = sf::Vector2(std::sin(rad), -std::cos(rad));
+}
+
+void Player::resetCoolDown() {
+	coolDownClock.restart();
+}
+
+bool Player::canShoot() {
+	if (coolDownClock.getElapsedTime().asMilliseconds() >= 100) {
+		return true;
+	}
+	return false;
+}
+
+void Player::moveForward(float deltaTime) {
+	playerShape.move(direction * speed * deltaTime);
+}
+void Player::rotateLeft() {
+	angle -= sf::degrees(4.f);
+	updateDirection();
+	playerShape.setRotation(angle);
+}
+void Player::rotateRight() {
+	angle += sf::degrees(4.f);
+	updateDirection();
+	playerShape.setRotation(angle);
+}
+sf::Vector2f Player::getDirection() const{
+	return direction;
+}
+sf::Vector2f Player::getPosition() const{
+	return playerShape.getPosition();
 }
