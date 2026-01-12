@@ -8,6 +8,7 @@
 #include "PlayerInput.hpp"
 #include "PlayerInputSystem.hpp"
 #include "PlayerMovementSystem.hpp"
+#include "CollisionSystem.hpp"
 
 class Game {
 public:
@@ -19,6 +20,8 @@ public:
 private:
 	sf::RenderWindow window;
 	sf::Clock clock;
+
+	CollisionSystem collisionSystem;
 
 	PlayerInput playerInput;
 	PlayerInputSystem playerInputSystem;

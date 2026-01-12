@@ -4,11 +4,11 @@
 #include <vector>
 #include <BulletSpawnEvent.hpp>
 #include "EventBus.hpp"
+#include "Collidable.hpp"
 
-class Player {
+class Player : public Collidable {
 private:
 	sf::CircleShape playerShape;
-	void control();
 	sf::Angle angle;
 	std::vector<Bullet> bullets;
 	sf::Clock coolDownClock;
@@ -18,8 +18,10 @@ private:
 
 	EventBus& bus;
 public:
+	void setPosition(sf::Vector2f position);
+	sf::FloatRect getBounds() const override;
+
 	Player(EventBus& bus);
-	void update();
 	void draw(sf::RenderWindow& window);
 	void resetCoolDown();
 	bool canShoot();

@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Collidable.hpp"
 
-class Rectangle {
+class Rectangle : public Collidable{
 private:
 	sf::RectangleShape rectangle;
 	sf::Vector2f size;
@@ -12,6 +13,7 @@ private:
 	
 
 public:
+	sf::FloatRect getBounds() const;
 	Rectangle(float height, float width, sf::Color color);
 	void draw(sf::RenderWindow& window);
 	void updatePosition(float deltaTime);

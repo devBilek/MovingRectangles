@@ -59,4 +59,7 @@ void Rectangle::rectangleRandomMove() {
 	}
 }
 
+sf::FloatRect Rectangle::getBounds() const {
+	return rectangle.getGlobalBounds();
+}
 

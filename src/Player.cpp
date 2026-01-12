@@ -12,9 +12,6 @@ Player::Player(EventBus& bus) : bus(bus) {
 	direction = sf::Vector2(std::sin(rad), -std::cos(rad));
 }
 
-void Player::update() {
-}
-
 void Player::draw(sf::RenderWindow& window) {
 	window.draw(playerShape);
 }
@@ -53,4 +50,12 @@ sf::Vector2f Player::getDirection() const{
 }
 sf::Vector2f Player::getPosition() const{
 	return playerShape.getPosition();
+}
+
+sf::FloatRect Player::getBounds() const {
+	return playerShape.getGlobalBounds();
+}
+
+void Player::setPosition(sf::Vector2f position) {
+	playerShape.setPosition(position);
 }
