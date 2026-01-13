@@ -58,8 +58,16 @@ void Rectangle::rectangleRandomMove() {
 		clock.restart();
 	}
 }
-
 sf::FloatRect Rectangle::getBounds() const {
 	return rectangle.getGlobalBounds();
+}
+sf::Vector2f Rectangle::getSize() const {
+	return rectangle.getSize();
+}
+sf::Vector2f Rectangle::getPosition() const {
+	return rectangle.getPosition();
+}
+void Rectangle::setPosition(sf::Vector2f position) {
+	rectangle.setPosition(position);
 }
 

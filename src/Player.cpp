@@ -45,17 +45,19 @@ void Player::rotateRight() {
 	updateDirection();
 	playerShape.setRotation(angle);
 }
-sf::Vector2f Player::getDirection() const{
+sf::Vector2f Player::getDirection() const {
 	return direction;
 }
-sf::Vector2f Player::getPosition() const{
-	return playerShape.getPosition();
-}
-
 sf::FloatRect Player::getBounds() const {
 	return playerShape.getGlobalBounds();
 }
-
+sf::Vector2f Player::getSize() const {
+	sf::FloatRect rect = playerShape.getGlobalBounds();
+	return { rect.size.x, rect.size.y };
+}
+sf::Vector2f Player::getPosition() const {
+	return playerShape.getPosition();
+}
 void Player::setPosition(sf::Vector2f position) {
 	playerShape.setPosition(position);
 }

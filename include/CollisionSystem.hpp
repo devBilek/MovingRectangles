@@ -6,4 +6,5 @@
 class CollisionSystem {
 public:
     void resolvePlayerBoundsCollision(Player& player, const sf::FloatRect& bounds);
+    void resolvePlayerRectanglesCollision(Player& player,const std::vector<Rectangle*>& rectangles);
 };

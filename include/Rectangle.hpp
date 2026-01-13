@@ -13,7 +13,11 @@ private:
 	
 
 public:
-	sf::FloatRect getBounds() const;
+	sf::FloatRect getBounds() const override;
+	sf::Vector2f getSize() const override;
+	sf::Vector2f getPosition() const override;
+	void setPosition(sf::Vector2f position) override;
+
 	Rectangle(float height, float width, sf::Color color);
 	void draw(sf::RenderWindow& window);
 	void updatePosition(float deltaTime);

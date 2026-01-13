@@ -18,8 +18,10 @@ private:
 
 	EventBus& bus;
 public:
-	void setPosition(sf::Vector2f position);
 	sf::FloatRect getBounds() const override;
+	sf::Vector2f getSize() const override;
+	sf::Vector2f getPosition() const override;
+	void setPosition(sf::Vector2f position) override;
 
 	Player(EventBus& bus);
 	void draw(sf::RenderWindow& window);
@@ -27,7 +29,6 @@ public:
 	bool canShoot();
 
 	sf::Vector2f getDirection() const;
-	sf::Vector2f getPosition() const;
 
 	void moveForward(float deltaTime);
 	void rotateLeft();

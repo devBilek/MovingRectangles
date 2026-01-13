@@ -32,6 +32,7 @@ void Game::run() {
         bulletMenager.update(deltaTime);
         
         collisionSystem.resolvePlayerBoundsCollision(player, { {0, 0}, {800, 600} });
+        collisionSystem.resolvePlayerRectanglesCollision(player, {r1.get(), r2.get(), r3.get()});
 
         r1->rectangleRandomMove();
         r1->updatePosition(deltaTime);
